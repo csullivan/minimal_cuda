@@ -1,0 +1,11 @@
+Import('env')
+
+env.Append(CPPPATH=[Dir('include')])
+
+env.Append(NVCCFLAGS=['--expt-extended-lambda'])
+cuda_objects = env.Object(Glob('src/*.cu'),OBJSUFFIX='.cuda.o')
+
+lib = env.SharedLibrary('mixed_cpu_and_gpu',Glob('src/*.cc'),
+                        LIBS=[cuda_objects])
+
+Return('lib')
